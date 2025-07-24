@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "GetAllCategories";
+   
+}
+
+<h1>GettAllCategories</h1>
+
+
+
+<h2>Category List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Category Order</th>
+            <th>Is Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CatName</td>
+                <td>@item.CatOrder</td>
+                <td>@(!item.IsDeleted ? "Yes" : "No")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+   </table>
+
+        <a asp-action="CreateCategory">Create New Category</a>
