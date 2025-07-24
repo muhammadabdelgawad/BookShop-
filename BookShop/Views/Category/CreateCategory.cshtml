@@ -1,7 +1,40 @@
-﻿
+﻿@model Models.Entities.Category;
 @{
-    ViewData["Title"] = "CreateCategory";
+    ViewData["Title"] = "Create Category";
 }
 
-<h1>CreateCategory</h1>
 
+<h2 class="text-primary mb-4">Create New Category</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CreateCategory" method="post">
+            <div class="mb-3">
+                <label asp-for="CatName" class="form-label">Category Name</label>
+                <input asp-for="CatName" class="form-control" />
+                <span asp-validation-for="CatName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CatOrder" class="form-label">Category Order</label>
+                <input asp-for="CatOrder" type="number" class="form-control" />
+                <span asp-validation-for="CatOrder" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a asp-action="GetAllCategories" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> Back to List
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Create
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

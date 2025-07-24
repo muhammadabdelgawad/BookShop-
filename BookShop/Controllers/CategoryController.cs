@@ -28,7 +28,7 @@ namespace BookShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.CreatedDate = DateTime.Now;
+               
                 _dbContext.Categories.Add(category);
                 _dbContext.SaveChanges();
                 return RedirectToAction("GetAllCategories");

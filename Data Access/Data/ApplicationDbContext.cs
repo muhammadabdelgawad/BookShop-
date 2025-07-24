@@ -17,6 +17,8 @@ namespace Data_Access.Data
         {
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             base.OnModelCreating(modelBuilder);
+
+           
         }
     }
     
