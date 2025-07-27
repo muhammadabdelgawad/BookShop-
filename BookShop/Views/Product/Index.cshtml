@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Models.Entities.Product>
+
+@{
+    ViewData["Title"] = "Product List";
+}
+
+<h2 class="mb-3">Product List</h2>
+
+<a class="btn btn-primary mb-3" asp-action="Create">Create New Product</a>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Author</th>
+            <th>Price ($)</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            string desc = product.Description;
+            bool isTruncated = false;
+
+            if (!string.IsNullOrEmpty(desc) && desc.Length > 50)
+            {
+                desc = desc.Substring(0, 50) + "...";
+                isTruncated = true;
+            }
+
+            <tr>
+                <td>@product.Title</td>
+                <td>
+                    @desc
+                    @if (isTruncated)
+                    {
+                        <a href="javascript:void(0)" class="text-primary read-more"
+                           data-title="@product.Title"
+                           data-description="@product.Description">Read More</a>
+                    }
+                </td>
+                <td>@product.Author</td>
+                <td>@product.Price.ToString("0.00")</td>
+                <td>@product.Category?.CatName</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                    <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@product.Id">Details</a>
+                    <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@product.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="readMoreModal" tabindex="-1" aria-labelledby="readMoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="readMoreModalLabel">Full Description</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 id="modalTitle"></h4>
+                <p id="modalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const readMoreLinks = document.querySelectorAll(".read-more");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalDescription = document.getElementById("modalDescription");
+            const modal = new bootstrap.Modal(document.getElementById("readMoreModal"));
+
+            readMoreLinks.forEach(link => {
+                link.addEventListener("click", function () {
+                    const title = this.getAttribute("data-title");
+                    const description = this.getAttribute("data-description");
+
+                    modalTitle.textContent = title;
+                    modalDescription.textContent = description;
+
+                    modal.show();
+                });
+            });
+        });
+    </script>
+}

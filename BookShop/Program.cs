@@ -1,4 +1,5 @@
 using Data_Access.Data;
+using Data_Access.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookShop
@@ -13,6 +14,7 @@ namespace BookShop
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             var app = builder.Build();
 

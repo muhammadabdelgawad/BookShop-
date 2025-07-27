@@ -12,7 +12,7 @@ namespace Models.Entities
         public int CatOrder { get; set; }
        
         public bool MarkedAsDeleted { get; set; } = false;
-        
-       
+
+        public ICollection<Product> Products { get; set; } 
     }
 }
