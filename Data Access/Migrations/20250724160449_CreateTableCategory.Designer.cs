@@ -40,7 +40,7 @@ namespace Data_Access.Migrations
                     b.Property<int>("CatOrder")
                         .HasColumnType("int");
 
-                    b.Property<bool>("MarkedAsDeleted")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
