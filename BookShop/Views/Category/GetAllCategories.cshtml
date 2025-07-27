@@ -1,39 +1,82 @@
-﻿
-@{
-    ViewData["Title"] = "GetAllCategories";
-   
+﻿@{
+	ViewData["Title"] = "GetAllCategories";
+
 }
 
-<h1>GettAllCategories</h1>
 
+<div class="container mt-4">
+    <!-- Page Title -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">
+            <i class="bi bi-list-ul"></i> Category List
+        </h2>
+        <a class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2" asp-action="CreateCategory" style="border-radius: 30px;">
+            <i class="bi bi-plus-circle"></i>
+            Create New Category
+        </a>
+    </div>
 
+    <!-- Category Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover table-bordered mb-0 text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Category Order</th>
+                        <th>Status</th>
+                        <th style="width: 220px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CatName</td>
+                            <td>@item.CatOrder</td>
+                            <td>
+                                <span class="badge @(item.MarkedAsDeleted ? "bg-danger" : "bg-success")">
+                                    @(item.MarkedAsDeleted ? "Inactive" : "Active")
+                                </span>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning btn-sm me-1" asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a class="btn btn-info btn-sm me-1 text-white" asp-action="Details" asp-route-id="@item.Id">
+                                    <i class="bi bi-eye"></i> Details
+                                </a>
+                                <button class="btn btn-danger btn-sm delete-btn" data-id="@item.Id">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-<h2>Category List</h2>
-
-<table>
-    <thead>
-        <tr>
-            <th>Category Name</th>
-            <th>Category Order</th>
-            <th>Is Active</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.CatName</td>
-                <td>@item.CatOrder</td>
-                <td>@(!item.MarkedAsDeleted ? "Active" : "Deleted")</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-   </table>
-
-        <a asp-action="CreateCategory">Create New Category</a>
+<!-- SweetAlert for Delete Confirmation -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const id = this.getAttribute('data-id');
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Category/Delete/' + id;
+                }
+            });
+        });
+    });
+</script>
