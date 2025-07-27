@@ -13,6 +13,12 @@ namespace BookShop.Controllers
             _dbContext = dbContext;
         }
 
+        public IActionResult Index()
+        {
+            var categories = _dbContext.Categories.ToList();
+            return View("GetAllCategories", categories); // Or View("Index") if you create Index.cshtml
+        }
+
         public IActionResult GetAllCategories()
         {
             var categories = _dbContext.Categories.ToList();
