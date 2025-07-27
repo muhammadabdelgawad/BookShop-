@@ -26,6 +26,10 @@ namespace Models.Configurations
 
             builder.Property(p => p.Price)
                 .IsRequired();
+            builder.HasOne(p => p.Category)
+                   .WithMany(c => c.Products)
+                   .HasForeignKey(p => p.CategoryId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

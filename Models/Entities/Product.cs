@@ -17,6 +17,8 @@ namespace Models.Entities
         [Range(0, 10000)]
         [Column("BookPrice")]
         public double  Price { get; set; }
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
 
     }
 }
