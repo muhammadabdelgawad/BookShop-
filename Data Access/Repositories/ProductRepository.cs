@@ -13,9 +13,11 @@ namespace Data_Access.Repositories
     {
         public ProductRepository(ApplicationDbContext context) : base(context) { }
 
-        public IEnumerable<Product> GetAllWithCategory()
+        public async Task <IEnumerable<Product>> GetAllWithCategoryAsync()
         {
-            return _dbSet.Include(p => p.Category).ToList();
+            return await _dbSet.Include(p => p.Category).ToListAsync();
         }
+
+        
     }
 }

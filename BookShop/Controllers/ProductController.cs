@@ -1,4 +1,5 @@
-﻿using Data_Access.UnitOfWork;
+﻿using System.Threading.Tasks;
+using Data_Access.UnitOfWork;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models.Entities;
@@ -14,68 +15,59 @@ namespace BookShop.Controllers
             _unitOfWork = unitOfWork;
         }
         
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var products = _unitOfWork.Products.GetAllWithCategory();
+            var products = await _unitOfWork.Products.GetAllWithCategoryAsync();
             return View(products);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Categories = _unitOfWork.Categories.GetAll();
+            ViewBag.Categories =await  _unitOfWork.Categories.GetAllAsync();
             return View();
         }
         
         [HttpPost]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
-                _unitOfWork.Products.Add(product);
-                _unitOfWork.Save();
-                return RedirectToAction("Index");
+               await _unitOfWork.Products.AddAsync(product);
+               await _unitOfWork.SaveAsync();
+                return RedirectToAction(nameof(Index));
             }
-            ViewBag.Categories = _unitOfWork.Categories.GetAll();
+            ViewBag.Categories = _unitOfWork.Categories.GetAllAsync();
             return View(product);
         }
 
 
-        public IActionResult Edit(int id)
+        public async Task <IActionResult> Edit(int id)
         {
-            var product = _unitOfWork.Products.GetById(id);
+            var product = await _unitOfWork.Products.GetByIdAsync(id);
             if (product == null) return NotFound();
 
-            ViewBag.Categories = _unitOfWork.Categories.GetAll();
+            ViewBag.Categories =await _unitOfWork.Categories.GetAllAsync();
             return View(product);
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var product = _unitOfWork.Products.GetById(id);
+            var product = await _unitOfWork.Products.GetByIdAsync(id);
             if (product == null) return NotFound();
 
             return View(product);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var product = _unitOfWork.Products.GetById(id);
+            var product = await _unitOfWork.Products.GetByIdAsync(id);
             if (product == null) return NotFound();
-            _unitOfWork.Products.Delete(product);
-            _unitOfWork.Save();
-            return RedirectToAction("Index");
+                  _unitOfWork.Products.Delete(product);
+            await _unitOfWork.SaveAsync();
+            return RedirectToAction(nameof(Index));
 
 
 
-            //var category = _dbContext.Categories.Find(id);
-            //if (category == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_dbContext.Categories.Remove(category);
-            //_dbContext.SaveChanges();
-            //return RedirectToAction("Index");
         }
     }
 }
