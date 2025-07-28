@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data_Access.Data;
+﻿using Data_Access.Data;
 using Data_Access.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Models.Entities;
 
 namespace Data_Access.UnitOfWork
@@ -23,7 +17,7 @@ namespace Data_Access.UnitOfWork
             Categories = new GenericRepository<Category>(dbContext);
         }
 
-        public void Save() => _dbContext.SaveChanges();
+        public async Task SaveAsync() =>await _dbContext.SaveChangesAsync();
         public void Dispose() => _dbContext.Dispose();
     }
 }
