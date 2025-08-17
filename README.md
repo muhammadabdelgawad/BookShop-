@@ -130,10 +130,3 @@ MIT License
 
 Copyright (c) 2024 muhammadabdelgawad
 
-
-## Contact/Support Information
-
-For any questions, issues, or contributions, please contact:
-
-*   Muhammad Abdelgawad: muhammadabdelgawad2016@gmail.com
-*   GitHub: [https://github.com/muhammadabdelgawad](https://github.com/muhammadabdelgawad)
