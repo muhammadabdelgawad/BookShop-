@@ -23,8 +23,6 @@ This ASP.NET Core MVC application provides a basic platform for managing and dis
 *   **SQL Server:**  Database for storing category and product information.
 *   **Data Access Layer:** Utilizes a Unit of Work pattern and generic repositories for data access abstraction.
 *   **Bootstrap:** CSS framework for styling the user interface.
-*   **jQuery:** JavaScript library for DOM manipulation and AJAX calls
-*   **jQuery Validation Unobtrusive:** Used for Client side validation.
 
 ## Prerequisites
 
